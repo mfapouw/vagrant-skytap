@@ -56,6 +56,24 @@ module VagrantPlugins
             unless provider_config.vm_name.nil?
               vm.update(name: provider_config.vm_name)
             end
+
+            # set network ip and host information
+            network_info = {
+              ip:               provider_config.vm_ip,
+              hostname:         provider_config.vm_host,
+            }.reject{|k, v| v.nil?}
+
+            id_bu = vm.id
+            if network_info.present?
+              if_id = vm.interfaces[0].id
+              if_uri = "/vms/" + vm.id + "/interfaces/" + if_id + ".json"
+              @logger.info("Updating network properties: #{network_info}")
+              vm.update(network_info, if_uri)              
+            end
+
+            # Fix, because custom if_uri breaks plugin..
+            vm.update({notes: "Dummy update to notes"}, "/vms/"+id_bu)
+            
           end
 
           @app.call(env)
