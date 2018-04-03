@@ -74,7 +74,17 @@ module VagrantPlugins
       #
       # @return [String]
       attr_accessor :guestos
-
+      
+      # The Skytap Environment Name.
+      #
+      # @return [String]
+      attr_accessor :environment_name
+      
+      # The Name to use for this machine.
+      #
+      # @return [String]
+      attr_accessor :vm_name
+      
       # The Hostname to use for this machine.
       #
       # @return [String]
@@ -83,7 +93,7 @@ module VagrantPlugins
       # The IP to use for this machine.
       #
       # @return [String]
-      attr_accessor :vm_ip
+      attr_accessor :vm_ip      
 
       def initialize(region_specific=false)
         @username               = UNSET_VALUE
@@ -98,6 +108,8 @@ module VagrantPlugins
         @cpuspersocket          = UNSET_VALUE
         @ram                    = UNSET_VALUE
         @guestos                = UNSET_VALUE
+        @environment_name       = UNSET_VALUE
+        @vm_name                = UNSET_VALUE
         @vm_host                = UNSET_VALUE
         @vm_ip                  = UNSET_VALUE
       end
@@ -130,7 +142,13 @@ module VagrantPlugins
         @cpuspersocket = nil if @cpuspersocket == UNSET_VALUE
         @ram           = nil if @ram           == UNSET_VALUE
         @guestos       = nil if @guestos       == UNSET_VALUE
+        
+        # Environment Name default to nil
+        @environment_name = nil if @environment_name == UNSET_VALUE        
 
+        # VM Name default to nil
+        @vm_name = nil if @vm_name == UNSET_VALUE
+        
         # VM Hostname default to nil
         @vm_host = nil if @vm_host == UNSET_VALUE
 
